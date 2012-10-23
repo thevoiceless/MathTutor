@@ -14,12 +14,14 @@ import android.view.View;
 public class MathTutor extends Activity
 {
 	private static int NUM_BANANAS = 4;
+	private boolean firstRun;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(new MathView(this));
+		firstRun = true;
 	}
 
 	@Override
@@ -35,6 +37,7 @@ public class MathTutor extends Activity
 		private boolean bananaSelected;
 		private Banana selectedBanana;
 		private Bitmap monkey, tree;
+		private int canvasWidth, canvasHeight;
 
 		public MathView(Context context)
 		{
@@ -60,16 +63,12 @@ public class MathTutor extends Activity
 		@Override
 		protected void onDraw(Canvas canvas)
 		{
-			Rect origTree = new Rect();
-			origTree.left = origTree.top = 0;
-			origTree.right = 1000;
-			origTree.bottom = 1000;
 			Rect scaledTree = new Rect();
 			scaledTree.left = scaledTree.top = 0;
 			scaledTree.right = canvas.getWidth() / 2;
 			scaledTree.bottom = canvas.getHeight();
 			
-			canvas.drawBitmap(tree, origTree, scaledTree, null);
+			canvas.drawBitmap(tree, null, scaledTree, null);
 			int monkeyX = canvas.getWidth() - monkey.getWidth();
 			int monkeyY = canvas.getHeight() - monkey.getHeight();
 			
