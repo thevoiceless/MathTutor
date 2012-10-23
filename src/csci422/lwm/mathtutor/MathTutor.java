@@ -37,7 +37,8 @@ public class MathTutor extends Activity
 		private boolean bananaSelected;
 		private Banana selectedBanana;
 		private Bitmap monkey, tree;
-		private int canvasWidth, canvasHeight;
+		private int canvasWidth, canvasHeight, monkeyX, monkeyY;
+		private Rect scaledTree;
 
 		public MathView(Context context)
 		{
@@ -50,33 +51,46 @@ public class MathTutor extends Activity
 		private void setDataMembers()
 		{			
 			monkey = BitmapFactory.decodeResource(getResources(), R.drawable.monkey);
-			tree = BitmapFactory.decodeResource(getResources(), R.drawable.tree);
-			
-			// Very fragile positioning logic, (hopefully) temporary
-			for (int i = 0; i < NUM_BANANAS; i++)
-			{
-				bananas[i] = new Banana((70 * (i + 1)), 50);
-			}
+			tree = BitmapFactory.decodeResource(getResources(), R.drawable.tree);			
 			bananaSelected = false;
+			scaledTree = new Rect();
 		}
 		
 		@Override
 		protected void onDraw(Canvas canvas)
 		{
-			Rect scaledTree = new Rect();
-			scaledTree.left = scaledTree.top = 0;
-			scaledTree.right = canvas.getWidth() / 2;
-			scaledTree.bottom = canvas.getHeight();
+			if (firstRun)
+			{
+				setDrawingCoords(canvas);
+			}
 			
 			canvas.drawBitmap(tree, null, scaledTree, null);
-			int monkeyX = canvas.getWidth() - monkey.getWidth();
-			int monkeyY = canvas.getHeight() - monkey.getHeight();
-			
 			canvas.drawBitmap(monkey, monkeyX, monkeyY, null);
 			
 			for (Banana banana : bananas)
 			{
 				canvas.drawBitmap(banana.icon, banana.x, banana.y, null);
+			}
+		}
+		
+		private void setDrawingCoords(Canvas canvas)
+		{
+			firstRun = false;
+			
+			canvasWidth = canvas.getWidth();
+			canvasHeight = canvas.getHeight();
+			
+			scaledTree.left = scaledTree.top = 0;
+			scaledTree.right = canvasWidth / 2;
+			scaledTree.bottom = canvasHeight;
+			
+			monkeyX = canvasWidth - monkey.getWidth();
+			monkeyY = canvasHeight - monkey.getHeight();
+			
+			// Very fragile positioning logic, (hopefully) temporary
+			for (int i = 0; i < NUM_BANANAS; i++)
+			{
+				bananas[i] = new Banana((70 * (i + 1)), 50);
 			}
 		}
 		
