@@ -13,7 +13,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MathTutor"
-            android:label="@string/title_activity_math_tutor" >
+            android:label="@string/title_activity_math_tutor"
+            android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
