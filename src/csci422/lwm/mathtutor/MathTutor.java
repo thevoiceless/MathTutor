@@ -7,12 +7,14 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 public class MathTutor extends Activity
 {
@@ -37,6 +39,7 @@ public class MathTutor extends Activity
 	private class MathView extends View
 	{
 		private Banana[] bananas = new Banana[NUM_BANANAS];
+		private Rect[] bananaRects = new Rect[NUM_BANANAS];
 		private boolean bananaSelected;
 		private Banana selectedBanana;
 		private Bitmap monkey, tree;
@@ -80,6 +83,9 @@ public class MathTutor extends Activity
 		{
 			firstRun = false;
 			
+			Paint highlight = new Paint(Paint.ANTI_ALIAS_FLAG);
+			highlight.setARGB(255, 10, 133, 255);
+			
 			canvasWidth = canvas.getWidth();
 			canvasHeight = canvas.getHeight();
 			
@@ -95,7 +101,8 @@ public class MathTutor extends Activity
 
 			for (int i = 0; i < NUM_BANANAS; i++)
 			{
-				bananas[i] = new Banana(xcoords[i] - 97, ycoords[i] - 76);
+				bananaRects[i] = new Rect(xcoords[i] - 76, ycoords[i] - 97, xcoords[i] + 76, ycoords[i] + 97);
+				bananas[i] = new Banana(xcoords[i] - 76, ycoords[i] - 97);
 			}
 		}
 		
@@ -105,6 +112,10 @@ public class MathTutor extends Activity
 			{
 				case MotionEvent.ACTION_DOWN:
 					Log.v("test", "(" + e.getX() + "," + e.getY() + ")");
+					if(tappedBanana(e))
+					{
+						Toast.makeText(MathTutor.this, "Touched banana", Toast.LENGTH_LONG).show();
+					}
 					break;
 				case MotionEvent.ACTION_MOVE:
 					break;
@@ -113,6 +124,18 @@ public class MathTutor extends Activity
 			}
 			invalidate();
 			return true;
+		}
+		
+		private boolean tappedBanana(MotionEvent e)
+		{
+			for (Rect r : bananaRects)
+			{
+				if (r.contains((int) e.getX(), (int) e.getY()))
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 		
 	}
