@@ -1,5 +1,7 @@
 package csci422.lwm.mathtutor;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -7,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
@@ -87,10 +90,12 @@ public class MathTutor extends Activity
 			monkeyX = canvasWidth - monkey.getWidth();
 			monkeyY = canvasHeight - monkey.getHeight();
 			
-			// Very fragile positioning logic, (hopefully) temporary
+			int[] xcoords = {150, 400, 150, 400};
+			int[] ycoords = {100, 100, 300, 300};
+
 			for (int i = 0; i < NUM_BANANAS; i++)
 			{
-				bananas[i] = new Banana((70 * (i + 1)), 50);
+				bananas[i] = new Banana(xcoords[i] - 97, ycoords[i] - 76);
 			}
 		}
 		
@@ -99,6 +104,7 @@ public class MathTutor extends Activity
 			switch (e.getAction())
 			{
 				case MotionEvent.ACTION_DOWN:
+					Log.v("test", "(" + e.getX() + "," + e.getY() + ")");
 					break;
 				case MotionEvent.ACTION_MOVE:
 					break;
