@@ -1,5 +1,7 @@
 package csci422.lwm.mathtutor;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -11,6 +13,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -19,14 +22,18 @@ public class MathTutor extends Activity
 {
 	public static String DEBUG_TAG = "mathtutorTest";
 	
-	private static int NUM_BANANAS = 4;
+	public static int NUM_BANANAS = 4;
+	private MathProblemGenerator problem = new MathProblemGenerator();
 	private boolean firstRun;
+	private MathView mv;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(new MathView(this));
+		mv = new MathView(this);
+		setContentView(mv);
+		
 		firstRun = true;
 	}
 
@@ -37,12 +44,34 @@ public class MathTutor extends Activity
 		return true;
 	}
 
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) 
+	{
+		if (item.getItemId() == R.id.difficulty_easy) 
+		{
+			problem.setDifficulty(MathProblemGenerator.EASY);
+		} 
+		else if (item.getItemId() == R.id.difficulty_medium)
+		{
+			problem.setDifficulty(MathProblemGenerator.MEDIUM);
+		} 
+		else if (item.getItemId() == R.id.difficulty_hard)
+		{
+			problem.setDifficulty(MathProblemGenerator.HARD);
+		}
+		mv.setProblem();
+		mv.invalidate();
+		return true;
+	}
+
+
+
 	private class MathView extends View
 	{
 		private Banana[] bananas = new Banana[NUM_BANANAS];
-		private Rect[] bananaRects = new Rect[NUM_BANANAS];
-		private MathProblemGenerator problem = new MathProblemGenerator();
-		private Paint p = new Paint();
+		private Rect[] bananaRects = new Rect[NUM_BANANAS]; 
+		private Paint problemTextPaint = new Paint();
+		private Paint bananaTextPaint = new Paint();
 		int[] xcoords = {150, 400, 150, 400};
 		int[] ycoords = {100, 100, 300, 300};
 		private boolean bananaSelected;
@@ -73,8 +102,11 @@ public class MathTutor extends Activity
 			if (firstRun)
 			{
 				setDrawingCoords(canvas);
-				p.setColor(Color.BLACK);
-				p.setTextSize((float)120.0);
+				setProblem();
+				problemTextPaint.setColor(Color.BLACK);
+				problemTextPaint.setTextSize((float)120.0);
+				bananaTextPaint.setColor(Color.BLACK);
+				bananaTextPaint.setTextSize((float)120.0);
 			}
 		
 			canvas.drawBitmap(tree, null, scaledTree, null);
@@ -82,14 +114,18 @@ public class MathTutor extends Activity
 			canvas.drawText(problem.getQuestion(),
 					canvasWidth / 2, 
 					canvasHeight / 3, 
-					p);	
+					problemTextPaint);	
 			
-			for (Banana banana : bananas)
+			for (int i = 0; i < NUM_BANANAS; i++)
 			{
-				canvas.drawBitmap(banana.icon, 
-						banana.x - Banana.ICON_HALFWIDTH, 
-						banana.y - Banana.ICON_HALFHEIGHT, 
+				canvas.drawBitmap(bananas[i].icon, 
+						bananas[i].x - Banana.ICON_HALFWIDTH, 
+						bananas[i].y - Banana.ICON_HALFHEIGHT, 
 						null);
+				canvas.drawText(Integer.toString(bananas[i].getValue()), 
+						bananas[i].x - Banana.ICON_HALFWIDTH, 
+						bananas[i].y , 
+						bananaTextPaint);
 			}
 		}
 		
@@ -111,6 +147,15 @@ public class MathTutor extends Activity
 			{
 				bananaRects[i] = new Rect(xcoords[i], ycoords[i], xcoords[i], ycoords[i]);
 				bananas[i] = new Banana(xcoords[i], ycoords[i]);
+			}		
+		}
+		
+		public void setProblem() 
+		{
+			problem.generateProblem();
+			ArrayList<Integer> bananaAnswers = problem.getAnswerChoices();
+			for (int i = 0; i < NUM_BANANAS; i++) {
+				bananas[i].setValue(bananaAnswers.get(i));
 			}
 		}
 		
@@ -147,7 +192,16 @@ public class MathTutor extends Activity
 						Log.v("test", "(" + e.getX() + "," + e.getY() + ")");
 						if (e.getX() >= monkeyX && e.getY() >= monkeyY)
 						{
-							Toast.makeText(MathTutor.this, "monkey", Toast.LENGTH_SHORT).show();
+							if(selectedBanana.getValue() == problem.getAnswer())
+							{
+								Toast.makeText(MathTutor.this, "CORRECT", Toast.LENGTH_LONG).show();
+								firstRun = true;
+								invalidate();
+							}
+							else
+							{
+								Toast.makeText(MathTutor.this, "WRONG!", Toast.LENGTH_SHORT).show();
+							}
 						}
 						else
 						{
@@ -170,8 +224,7 @@ public class MathTutor extends Activity
 		private static final int ICON_HEIGHT = 195;
 		private static final int ICON_HALFWIDTH = 76;
 		private static final int ICON_HALFHEIGHT = 97;
-		//Delete value?
-		//private int value;
+		private int value;
 		private Bitmap icon;
 		private int x, y;
 		private Rect bounds;
@@ -202,6 +255,16 @@ public class MathTutor extends Activity
 		private void setSelected()
 		{
 			icon = BitmapFactory.decodeResource(getResources(), R.drawable.banana_selected);
+		}
+		
+		public int getValue() 
+		{
+			return value;
+		}
+		
+		public void setValue(int value) 
+		{
+			this.value = value;
 		}
 		
 	}

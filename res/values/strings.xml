@@ -4,5 +4,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_math_tutor">Math Tutor</string>
+    
+    <string name="easy_label">Easy Difficulty</string>
+    <string name="medium_label">Medium Difficulty</string>
+    <string name="hard_label">Hard Difficulty</string>
 
 </resources>

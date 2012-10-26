@@ -1,5 +1,7 @@
 package csci422.lwm.mathtutor;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 import android.util.Log;
@@ -7,9 +9,9 @@ import android.util.Log;
 public class MathProblemGenerator {	
 	
 	private static final int[] VALUE_LIMIT = {10, 20, 100};
-	private static final int EASY = 0;
-	//private static final int MEDIUM = 1;
-	//private static final int HARD = 2;
+	public static final int EASY = 0;
+	public static final int MEDIUM = 1;
+	public static final int HARD = 2;
 	
 	private static final int ADDITION = 0;
 	private static final int SUBTRACTION = 1;
@@ -26,7 +28,7 @@ public class MathProblemGenerator {
 	}
 	
 	public void generateProblem() {
-		problemType = random.nextInt(1);
+		problemType = random.nextInt(2);
 		if (problemType == ADDITION) {
 			generateAddition();
 		} else if (problemType == SUBTRACTION) {
@@ -37,9 +39,12 @@ public class MathProblemGenerator {
 	}
 	
 	private void generateAddition() {
-		value1 = random.nextInt(VALUE_LIMIT[difficulty]);
-		int answer = random.nextInt(VALUE_LIMIT[difficulty]);
-		value2 = Math.abs(value1-answer);
+		value1 = 99;
+		value2 = 99;
+		while(value1 + value2 > VALUE_LIMIT[difficulty]) {
+			value1 = random.nextInt(VALUE_LIMIT[difficulty]);
+			value2 = random.nextInt(VALUE_LIMIT[difficulty]);
+		}
 	}
 	
 	private void generateSubtraction() {
@@ -71,6 +76,24 @@ public class MathProblemGenerator {
 			Log.wtf(MathTutor.DEBUG_TAG, "Problem Tag is invalid");
 			return Integer.valueOf(-1);
 		}
+	}
+	
+	public ArrayList<Integer> getAnswerChoices() {
+		ArrayList<Integer> answers = new ArrayList<Integer>();
+		answers.add(getAnswer());
+		while (answers.size() < 4) {
+			int answer = random.nextInt(VALUE_LIMIT[difficulty]);
+			if (!answers.contains(answer)) {
+				answers.add(answer);
+			}
+		}
+		Collections.shuffle(answers);
+		return answers;
+	}
+	
+	public void setDifficulty(int difficulty) {
+		this.difficulty = difficulty;
+		generateProblem();
 	}
 	
 }
