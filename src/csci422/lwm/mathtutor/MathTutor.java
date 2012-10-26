@@ -114,7 +114,7 @@ public class MathTutor extends Activity
 					Log.v("test", "(" + e.getX() + "," + e.getY() + ")");
 					if(tappedBanana(e))
 					{
-						Toast.makeText(MathTutor.this, "Touched banana", Toast.LENGTH_LONG).show();
+						
 					}
 					break;
 				case MotionEvent.ACTION_MOVE:
@@ -128,10 +128,13 @@ public class MathTutor extends Activity
 		
 		private boolean tappedBanana(MotionEvent e)
 		{
-			for (Rect r : bananaRects)
+			for (int i = 0; i < NUM_BANANAS; i++)
 			{
-				if (r.contains((int) e.getX(), (int) e.getY()))
+				if (bananaRects[i].contains((int) e.getX(), (int) e.getY()))
 				{
+					bananaSelected = true;
+					selectedBanana = bananas[i];
+					selectedBanana.setSelected();
 					return true;
 				}
 			}
