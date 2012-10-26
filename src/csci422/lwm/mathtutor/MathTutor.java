@@ -5,6 +5,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,6 +41,8 @@ public class MathTutor extends Activity
 	{
 		private Banana[] bananas = new Banana[NUM_BANANAS];
 		private Rect[] bananaRects = new Rect[NUM_BANANAS];
+		private MathProblemGenerator problem = new MathProblemGenerator();
+		private Paint p = new Paint();
 		int[] xcoords = {150, 400, 150, 400};
 		int[] ycoords = {100, 100, 300, 300};
 		private boolean bananaSelected;
@@ -69,11 +73,17 @@ public class MathTutor extends Activity
 			if (firstRun)
 			{
 				setDrawingCoords(canvas);
+				p.setColor(Color.BLACK);
+				p.setTextSize((float)120.0);
 			}
-			
+		
 			canvas.drawBitmap(tree, null, scaledTree, null);
 			canvas.drawBitmap(monkey, monkeyX, monkeyY, null);
-						
+			canvas.drawText(problem.getQuestion(),
+					canvasWidth / 2, 
+					canvasHeight / 3, 
+					p);	
+			
 			for (Banana banana : bananas)
 			{
 				canvas.drawBitmap(banana.icon, 
@@ -160,7 +170,8 @@ public class MathTutor extends Activity
 		private static final int ICON_HEIGHT = 195;
 		private static final int ICON_HALFWIDTH = 76;
 		private static final int ICON_HALFHEIGHT = 97;
-		private int value;
+		//Delete value?
+		//private int value;
 		private Bitmap icon;
 		private int x, y;
 		private Rect bounds;
