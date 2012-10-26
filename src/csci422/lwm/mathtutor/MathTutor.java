@@ -1,7 +1,6 @@
 package csci422.lwm.mathtutor;
 
 import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -40,10 +39,12 @@ public class MathTutor extends Activity
 	{
 		private Banana[] bananas = new Banana[NUM_BANANAS];
 		private Rect[] bananaRects = new Rect[NUM_BANANAS];
+		int[] xcoords = {150, 400, 150, 400};
+		int[] ycoords = {100, 100, 300, 300};
 		private boolean bananaSelected;
 		private Banana selectedBanana;
 		private Bitmap monkey, tree;
-		private int canvasWidth, canvasHeight, monkeyX, monkeyY;
+		private int canvasWidth, canvasHeight, monkeyX, monkeyY, origBananaX, origBananaY;
 		private Rect scaledTree;
 
 		public MathView(Context context)
@@ -72,19 +73,19 @@ public class MathTutor extends Activity
 			
 			canvas.drawBitmap(tree, null, scaledTree, null);
 			canvas.drawBitmap(monkey, monkeyX, monkeyY, null);
-			
+						
 			for (Banana banana : bananas)
 			{
-				canvas.drawBitmap(banana.icon, banana.x, banana.y, null);
+				canvas.drawBitmap(banana.icon, 
+						banana.x - Banana.ICON_HALFWIDTH, 
+						banana.y - Banana.ICON_HALFHEIGHT, 
+						null);
 			}
 		}
 		
 		private void setDrawingCoords(Canvas canvas)
 		{
 			firstRun = false;
-			
-			Paint highlight = new Paint(Paint.ANTI_ALIAS_FLAG);
-			highlight.setARGB(255, 10, 133, 255);
 			
 			canvasWidth = canvas.getWidth();
 			canvasHeight = canvas.getHeight();
@@ -95,14 +96,11 @@ public class MathTutor extends Activity
 			
 			monkeyX = canvasWidth - monkey.getWidth();
 			monkeyY = canvasHeight - monkey.getHeight();
-			
-			int[] xcoords = {150, 400, 150, 400};
-			int[] ycoords = {100, 100, 300, 300};
 
 			for (int i = 0; i < NUM_BANANAS; i++)
 			{
-				bananaRects[i] = new Rect(xcoords[i] - 76, ycoords[i] - 97, xcoords[i] + 76, ycoords[i] + 97);
-				bananas[i] = new Banana(xcoords[i] - 76, ycoords[i] - 97);
+				bananaRects[i] = new Rect(xcoords[i], ycoords[i], xcoords[i], ycoords[i]);
+				bananas[i] = new Banana(xcoords[i], ycoords[i]);
 			}
 		}
 		
@@ -112,54 +110,77 @@ public class MathTutor extends Activity
 			{
 				case MotionEvent.ACTION_DOWN:
 					Log.v("test", "(" + e.getX() + "," + e.getY() + ")");
-					if(tappedBanana(e))
+					for (int i = 0; i < NUM_BANANAS; i++)
 					{
-						
+						if (bananas[i].bounds.contains((int) e.getX(), (int) e.getY()))
+						{
+							bananaSelected = true;
+							selectedBanana = bananas[i];
+							selectedBanana.setSelected();
+							origBananaX = selectedBanana.x;
+							origBananaY = selectedBanana.y;
+						}
 					}
 					break;
 				case MotionEvent.ACTION_MOVE:
+					if (selectedBanana != null)
+					{
+						selectedBanana.updatePosition(e.getX(), e.getY());
+					}
 					break;
 				case MotionEvent.ACTION_UP:
+					if (bananaSelected)
+					{
+//						selectedBanana.setUnselected();
+//						selectedBanana = null;
+//						bananaSelected = false;
+						Log.v("test", "(" + e.getX() + "," + e.getY() + ")");
+						if (e.getX() >= monkeyX && e.getY() >= monkeyY)
+						{
+							Toast.makeText(MathTutor.this, "monkey", Toast.LENGTH_SHORT).show();
+						}
+						else
+						{
+							selectedBanana.updatePosition(origBananaX, origBananaY);
+							selectedBanana.setUnselected();
+							bananaSelected = false;
+							selectedBanana = null;
+						}
+					}
 					break;
 			}
 			invalidate();
 			return true;
 		}
-		
-		private boolean tappedBanana(MotionEvent e)
-		{
-			for (int i = 0; i < NUM_BANANAS; i++)
-			{
-				if (bananaRects[i].contains((int) e.getX(), (int) e.getY()))
-				{
-					bananaSelected = true;
-					selectedBanana = bananas[i];
-					selectedBanana.setSelected();
-					return true;
-				}
-			}
-			return false;
-		}
-		
 	}
 	
 	private class Banana
 	{
+		private static final int ICON_WIDTH = 152;
+		private static final int ICON_HEIGHT = 195;
+		private static final int ICON_HALFWIDTH = 76;
+		private static final int ICON_HALFHEIGHT = 97;
 		private int value;
 		private Bitmap icon;
 		private int x, y;
+		private Rect bounds;
 		
 		public Banana(int x, int y)
 		{
 			icon = BitmapFactory.decodeResource(getResources(), R.drawable.banana);
 			this.x = x;
 			this.y = y;	
+			bounds = new Rect(x, y, x + ICON_WIDTH, y + ICON_HEIGHT);
 		}
 		
 		private void updatePosition(float newX, float newY)
 		{
-			//x = (int) newX - ICON_HALFDIM;
-			//y = (int) newY - ICON_HALFDIM;
+			x = (int) newX;
+			y = (int) newY;
+			bounds.left = x;
+			bounds.top = y;
+			bounds.right = x + ICON_WIDTH;
+			bounds.bottom = y + ICON_HEIGHT;
 		}
 		
 		private void setUnselected()
