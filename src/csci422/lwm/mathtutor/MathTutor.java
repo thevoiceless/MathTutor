@@ -1,7 +1,5 @@
 package csci422.lwm.mathtutor;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -16,6 +14,8 @@ import android.view.View;
 
 public class MathTutor extends Activity
 {
+	public static String DEBUG_TAG = "mathtutorTest";
+	
 	private static int NUM_BANANAS = 4;
 	private boolean firstRun;
 
