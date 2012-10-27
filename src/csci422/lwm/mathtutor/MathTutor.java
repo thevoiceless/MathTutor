@@ -26,6 +26,7 @@ public class MathTutor extends Activity
 	private MathProblemGenerator problem = new MathProblemGenerator();
 	private boolean firstRun;
 	private MathView mv;
+	private Paint debugRects;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -35,6 +36,9 @@ public class MathTutor extends Activity
 		setContentView(mv);
 		
 		firstRun = true;
+		
+		debugRects = new Paint(Paint.ANTI_ALIAS_FLAG);
+		debugRects.setARGB(255, 10, 133, 255);
 	}
 
 	@Override
@@ -64,12 +68,9 @@ public class MathTutor extends Activity
 		return true;
 	}
 
-
-
 	private class MathView extends View
 	{
 		private Banana[] bananas = new Banana[NUM_BANANAS];
-		private Rect[] bananaRects = new Rect[NUM_BANANAS]; 
 		private Paint problemTextPaint = new Paint();
 		private Paint bananaTextPaint = new Paint();
 		int[] xcoords = {150, 400, 150, 400};
@@ -126,6 +127,7 @@ public class MathTutor extends Activity
 						bananas[i].x - Banana.ICON_HALFWIDTH, 
 						bananas[i].y , 
 						bananaTextPaint);
+				//canvas.drawRect(bananas[i].bounds, debugRects);
 			}
 		}
 		
@@ -145,7 +147,6 @@ public class MathTutor extends Activity
 
 			for (int i = 0; i < NUM_BANANAS; i++)
 			{
-				bananaRects[i] = new Rect(xcoords[i], ycoords[i], xcoords[i], ycoords[i]);
 				bananas[i] = new Banana(xcoords[i], ycoords[i]);
 			}		
 		}
@@ -186,9 +187,6 @@ public class MathTutor extends Activity
 				case MotionEvent.ACTION_UP:
 					if (bananaSelected)
 					{
-//						selectedBanana.setUnselected();
-//						selectedBanana = null;
-//						bananaSelected = false;
 						Log.v("test", "(" + e.getX() + "," + e.getY() + ")");
 						if (e.getX() >= monkeyX && e.getY() >= monkeyY)
 						{
@@ -234,17 +232,17 @@ public class MathTutor extends Activity
 			icon = BitmapFactory.decodeResource(getResources(), R.drawable.banana);
 			this.x = x;
 			this.y = y;	
-			bounds = new Rect(x, y, x + ICON_WIDTH, y + ICON_HEIGHT);
+			bounds = new Rect(x - ICON_HALFWIDTH, y - ICON_HALFHEIGHT, x + ICON_HALFWIDTH, y + ICON_HALFHEIGHT);
 		}
 		
 		private void updatePosition(float newX, float newY)
 		{
 			x = (int) newX;
 			y = (int) newY;
-			bounds.left = x;
-			bounds.top = y;
-			bounds.right = x + ICON_WIDTH;
-			bounds.bottom = y + ICON_HEIGHT;
+			bounds.left = x - ICON_HALFWIDTH;
+			bounds.top = y - ICON_HALFHEIGHT;
+			bounds.right = x + ICON_HALFWIDTH;
+			bounds.bottom = y + ICON_HALFHEIGHT;
 		}
 		
 		private void setUnselected()
