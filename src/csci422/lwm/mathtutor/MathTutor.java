@@ -91,7 +91,7 @@ public class MathTutor extends Activity
 		
 		private void setDataMembers()
 		{			
-			monkey = BitmapFactory.decodeResource(getResources(), R.drawable.monkey);
+			monkey = BitmapFactory.decodeResource(getResources(), R.drawable.monkey_question);
 			tree = BitmapFactory.decodeResource(getResources(), R.drawable.tree);			
 			bananaSelected = false;
 			scaledTree = new Rect();
