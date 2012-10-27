@@ -78,8 +78,8 @@ public class MathTutor extends Activity
 		int[] ycoords = {100, 100, 300, 300};
 		private boolean bananaSelected;
 		private Banana selectedBanana;
-		private Bitmap monkey, tree;
-		private int canvasWidth, canvasHeight, monkeyX, monkeyY, origBananaX, origBananaY;
+		private Bitmap monkey, tree, result;
+		private int canvasWidth, canvasHeight, monkeyX, monkeyY, origBananaX, origBananaY, resultX, resultY;
 		private Rect scaledTree;
 
 		public MathView(Context context)
@@ -91,9 +91,10 @@ public class MathTutor extends Activity
 		}
 		
 		private void setDataMembers()
-		{			
+		{
 			monkey = BitmapFactory.decodeResource(getResources(), R.drawable.monkey_question);
-			tree = BitmapFactory.decodeResource(getResources(), R.drawable.tree);			
+			tree = BitmapFactory.decodeResource(getResources(), R.drawable.tree);
+			result = BitmapFactory.decodeResource(getResources(), R.drawable.placeholder);
 			bananaSelected = false;
 			scaledTree = new Rect();
 		}
@@ -113,6 +114,7 @@ public class MathTutor extends Activity
 		
 			canvas.drawBitmap(tree, null, scaledTree, null);
 			canvas.drawBitmap(monkey, monkeyX, monkeyY, null);
+			canvas.drawBitmap(result, resultX, resultY, null);
 			canvas.drawText(problem.getQuestion(),
 					canvasWidth / 2, 
 					canvasHeight / 3, 
@@ -142,6 +144,9 @@ public class MathTutor extends Activity
 			canvasWidth = canvas.getWidth();
 			canvasHeight = canvas.getHeight();
 			
+			resultX = canvasWidth / 2;
+			resultY = canvasHeight / 2;
+			
 			scaledTree.left = scaledTree.top = 0;
 			scaledTree.right = canvasWidth / 2;
 			scaledTree.bottom = canvasHeight;
@@ -167,6 +172,7 @@ public class MathTutor extends Activity
 		private void happyMonkey()
 		{
 			monkey = BitmapFactory.decodeResource(getResources(), R.drawable.monkey_happy);
+			result = BitmapFactory.decodeResource(getResources(), R.drawable.check);
 			selectedBanana.setVisible(false);
 			Handler handler = new Handler();
 			handler.postDelayed(new Runnable()
@@ -174,6 +180,7 @@ public class MathTutor extends Activity
 				public void run()
 				{
 					monkey = BitmapFactory.decodeResource(getResources(), R.drawable.monkey_question);
+					result = BitmapFactory.decodeResource(getResources(), R.drawable.placeholder);
 					firstRun = true;
 					invalidate();
 				}
@@ -183,6 +190,7 @@ public class MathTutor extends Activity
 		private void sadMonkey()
 		{
 			monkey = BitmapFactory.decodeResource(getResources(), R.drawable.monkey_sad);
+			result = BitmapFactory.decodeResource(getResources(), R.drawable.ex);
 			selectedBanana.setVisible(false);
 			Handler handler = new Handler();
 			handler.postDelayed(new Runnable()
@@ -190,6 +198,7 @@ public class MathTutor extends Activity
 				public void run()
 				{
 					monkey = BitmapFactory.decodeResource(getResources(), R.drawable.monkey_question);
+					result = BitmapFactory.decodeResource(getResources(), R.drawable.placeholder);
 					invalidate();
 				}
 			}, 1000);
