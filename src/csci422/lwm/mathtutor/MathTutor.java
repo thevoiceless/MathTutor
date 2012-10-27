@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -119,14 +120,17 @@ public class MathTutor extends Activity
 			
 			for (int i = 0; i < NUM_BANANAS; i++)
 			{
-				canvas.drawBitmap(bananas[i].icon, 
-						bananas[i].x - Banana.ICON_HALFWIDTH, 
-						bananas[i].y - Banana.ICON_HALFHEIGHT, 
-						null);
-				canvas.drawText(Integer.toString(bananas[i].getValue()), 
-						bananas[i].x - Banana.ICON_HALFWIDTH, 
-						bananas[i].y , 
-						bananaTextPaint);
+				if (bananas[i].visible)
+				{
+					canvas.drawBitmap(bananas[i].icon, 
+							bananas[i].x - Banana.ICON_HALFWIDTH, 
+							bananas[i].y - Banana.ICON_HALFHEIGHT, 
+							null);
+					canvas.drawText(Integer.toString(bananas[i].getValue()), 
+							bananas[i].x - Banana.ICON_HALFWIDTH, 
+							bananas[i].y , 
+							bananaTextPaint);
+				}
 				//canvas.drawRect(bananas[i].bounds, debugRects);
 			}
 		}
@@ -160,6 +164,37 @@ public class MathTutor extends Activity
 			}
 		}
 		
+		private void happyMonkey()
+		{
+			monkey = BitmapFactory.decodeResource(getResources(), R.drawable.monkey_happy);
+			selectedBanana.setVisible(false);
+			Handler handler = new Handler();
+			handler.postDelayed(new Runnable()
+			{
+				public void run()
+				{
+					monkey = BitmapFactory.decodeResource(getResources(), R.drawable.monkey_question);
+					firstRun = true;
+					invalidate();
+				}
+			}, 1000);
+		}
+		
+		private void sadMonkey()
+		{
+			monkey = BitmapFactory.decodeResource(getResources(), R.drawable.monkey_sad);
+			selectedBanana.setVisible(false);
+			Handler handler = new Handler();
+			handler.postDelayed(new Runnable()
+			{
+				public void run()
+				{
+					monkey = BitmapFactory.decodeResource(getResources(), R.drawable.monkey_question);
+					invalidate();
+				}
+			}, 1000);
+		}
+		
 		public boolean onTouchEvent(MotionEvent e)
 		{
 			switch (e.getAction())
@@ -168,7 +203,7 @@ public class MathTutor extends Activity
 					Log.v("test", "(" + e.getX() + "," + e.getY() + ")");
 					for (int i = 0; i < NUM_BANANAS; i++)
 					{
-						if (bananas[i].bounds.contains((int) e.getX(), (int) e.getY()))
+						if (bananas[i].visible && bananas[i].bounds.contains((int) e.getX(), (int) e.getY()))
 						{
 							bananaSelected = true;
 							selectedBanana = bananas[i];
@@ -193,12 +228,12 @@ public class MathTutor extends Activity
 							if(selectedBanana.getValue() == problem.getAnswer())
 							{
 								Toast.makeText(MathTutor.this, "CORRECT", Toast.LENGTH_LONG).show();
-								firstRun = true;
-								invalidate();
+								happyMonkey();
 							}
 							else
 							{
 								Toast.makeText(MathTutor.this, "WRONG!", Toast.LENGTH_SHORT).show();
+								sadMonkey();
 							}
 						}
 						else
@@ -226,6 +261,7 @@ public class MathTutor extends Activity
 		private Bitmap icon;
 		private int x, y;
 		private Rect bounds;
+		private boolean visible;
 		
 		public Banana(int x, int y)
 		{
@@ -233,6 +269,7 @@ public class MathTutor extends Activity
 			this.x = x;
 			this.y = y;	
 			bounds = new Rect(x - ICON_HALFWIDTH, y - ICON_HALFHEIGHT, x + ICON_HALFWIDTH, y + ICON_HALFHEIGHT);
+			visible = true;
 		}
 		
 		private void updatePosition(float newX, float newY)
@@ -260,9 +297,14 @@ public class MathTutor extends Activity
 			return value;
 		}
 		
-		public void setValue(int value) 
+		public void setValue(int newValue) 
 		{
-			this.value = value;
+			value = newValue;
+		}
+		
+		public void setVisible(boolean newVisibility)
+		{
+			visible = newVisibility;
 		}
 		
 	}
