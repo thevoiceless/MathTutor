@@ -96,4 +96,8 @@ public class MathProblemGenerator {
 		generateProblem();
 	}
 	
+	public int getDifficulty() {
+		return difficulty;
+	}
+	
 }

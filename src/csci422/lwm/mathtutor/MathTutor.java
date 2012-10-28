@@ -41,14 +41,38 @@ public class MathTutor extends Activity
 		debugRects = new Paint(Paint.ANTI_ALIAS_FLAG);
 		debugRects.setARGB(255, 10, 133, 255);
 	}
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu)
+	{
+		if (problem.getDifficulty() == MathProblemGenerator.EASY)
+		{
+			menu.findItem(R.id.difficulty_easy).setEnabled(false);
+			menu.findItem(R.id.difficulty_medium).setEnabled(true);
+			menu.findItem(R.id.difficulty_hard).setEnabled(true);
+		}
+		else if (problem.getDifficulty() == MathProblemGenerator.MEDIUM)
+		{
+			menu.findItem(R.id.difficulty_easy).setEnabled(true);
+			menu.findItem(R.id.difficulty_medium).setEnabled(false);
+			menu.findItem(R.id.difficulty_hard).setEnabled(true);
+		}
+		else if (problem.getDifficulty() == MathProblemGenerator.HARD)
+		{
+			menu.findItem(R.id.difficulty_easy).setEnabled(true);
+			menu.findItem(R.id.difficulty_medium).setEnabled(true);
+			menu.findItem(R.id.difficulty_hard).setEnabled(false);
+		}
+		return super.onPrepareOptionsMenu(menu);
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-		getMenuInflater().inflate(R.menu.activity_math_tutor, menu);
+		getMenuInflater().inflate(R.menu.difficulty, menu);
 		return true;
 	}
-
+	
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) 
 	{
