@@ -24,7 +24,7 @@ public class MathTutor extends Activity
 	public static String DEBUG_TAG = "mathtutorTest";
 	
 	public static int NUM_BANANAS = 4;
-	private MathProblemGenerator problem = new MathProblemGenerator();
+	private MathProblemGenerator problem;
 	private boolean firstRun;
 	private MathView mv;
 	private Paint debugPaint;
@@ -33,9 +33,14 @@ public class MathTutor extends Activity
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		mv = new MathView(this);
+		setDataMembers();
 		setContentView(mv);
-		
+	}
+	
+	private void setDataMembers()
+	{
+		mv = new MathView(this);
+		problem = new MathProblemGenerator();
 		firstRun = true;
 		
 		debugPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
