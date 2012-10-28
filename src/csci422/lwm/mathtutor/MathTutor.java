@@ -27,7 +27,7 @@ public class MathTutor extends Activity
 	private MathProblemGenerator problem = new MathProblemGenerator();
 	private boolean firstRun;
 	private MathView mv;
-	private Paint debugRects;
+	private Paint debugPaint;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -38,8 +38,8 @@ public class MathTutor extends Activity
 		
 		firstRun = true;
 		
-		debugRects = new Paint(Paint.ANTI_ALIAS_FLAG);
-		debugRects.setARGB(255, 10, 133, 255);
+		debugPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		debugPaint.setARGB(255, 10, 133, 255);
 	}
 	
 	@Override
@@ -79,14 +79,17 @@ public class MathTutor extends Activity
 		if (item.getItemId() == R.id.difficulty_easy) 
 		{
 			problem.setDifficulty(MathProblemGenerator.EASY);
+			firstRun = true;
 		} 
 		else if (item.getItemId() == R.id.difficulty_medium)
 		{
 			problem.setDifficulty(MathProblemGenerator.MEDIUM);
+			firstRun = true;
 		} 
 		else if (item.getItemId() == R.id.difficulty_hard)
 		{
 			problem.setDifficulty(MathProblemGenerator.HARD);
+			firstRun = true;
 		}
 		mv.setProblem();
 		mv.invalidate();
@@ -131,7 +134,8 @@ public class MathTutor extends Activity
 				setDrawingCoords(canvas);
 				setProblem();
 				problemTextPaint.setColor(Color.BLACK);
-				problemTextPaint.setTextSize((float)120.0);
+				problemTextPaint.setTextSize((float) determineMaxSize(problem.getQuestion(), 
+						(canvas.getWidth() / 2)));
 				bananaTextPaint.setColor(Color.BLACK);
 				bananaTextPaint.setTextSize((float)120.0);
 			}
@@ -159,6 +163,20 @@ public class MathTutor extends Activity
 				}
 				//canvas.drawRect(bananas[i].bounds, debugRects);
 			}
+		}
+		
+		// Credit: http://stackoverflow.com/questions/12166476/android-canvas-drawtext-set-font-size-from-width
+		private int determineMaxSize(String str, float maxWidth)
+		{
+		    int size = 0;       
+		    Paint paint = new Paint();
+
+		    do
+		    {
+		    	paint.setTextSize(++size);
+		    } while (paint.measureText(str) < maxWidth);
+
+		    return size;
 		}
 		
 		private void setDrawingCoords(Canvas canvas)
