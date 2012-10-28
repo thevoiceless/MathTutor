@@ -236,12 +236,10 @@ public class MathTutor extends Activity
 						{
 							if(selectedBanana.getValue() == problem.getAnswer())
 							{
-								Toast.makeText(MathTutor.this, "CORRECT", Toast.LENGTH_LONG).show();
 								happyMonkey();
 							}
 							else
 							{
-								Toast.makeText(MathTutor.this, "WRONG!", Toast.LENGTH_SHORT).show();
 								sadMonkey();
 							}
 						}
