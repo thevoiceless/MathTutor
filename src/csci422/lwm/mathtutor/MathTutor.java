@@ -108,7 +108,7 @@ public class MathTutor extends Activity
 		private Paint bananaTextPaint = new Paint();
 		int[] xcoords = {150, 400, 150, 400};
 		int[] ycoords = {100, 100, 300, 300};
-		private boolean bananaSelected;
+		private boolean bananaSelected, ignoreTouches;
 		private Banana selectedBanana;
 		private Bitmap monkey, tree, result;
 		private int canvasWidth, canvasHeight, monkeyX, monkeyY, origBananaX, origBananaY, resultX, resultY;
@@ -128,6 +128,7 @@ public class MathTutor extends Activity
 			tree = BitmapFactory.decodeResource(getResources(), R.drawable.tree);
 			result = BitmapFactory.decodeResource(getResources(), R.drawable.placeholder);
 			bananaSelected = false;
+			ignoreTouches = false;
 			scaledTree = new Rect();
 		}
 		
@@ -229,6 +230,7 @@ public class MathTutor extends Activity
 					monkey = BitmapFactory.decodeResource(getResources(), R.drawable.monkey_question);
 					result = BitmapFactory.decodeResource(getResources(), R.drawable.placeholder);
 					firstRun = true;
+					ignoreTouches = false;
 					invalidate();
 				}
 			}, 1000);
@@ -246,6 +248,7 @@ public class MathTutor extends Activity
 				{
 					monkey = BitmapFactory.decodeResource(getResources(), R.drawable.monkey_question);
 					result = BitmapFactory.decodeResource(getResources(), R.drawable.placeholder);
+					ignoreTouches = false;
 					invalidate();
 				}
 			}, 1000);
@@ -253,6 +256,10 @@ public class MathTutor extends Activity
 		
 		public boolean onTouchEvent(MotionEvent e)
 		{
+			if (ignoreTouches)
+			{
+				return true;
+			}
 			switch (e.getAction())
 			{
 				case MotionEvent.ACTION_DOWN:
@@ -281,6 +288,7 @@ public class MathTutor extends Activity
 						Log.v("test", "(" + e.getX() + "," + e.getY() + ")");
 						if (e.getX() >= monkeyX && e.getY() >= monkeyY)
 						{
+							ignoreTouches = true;
 							if(selectedBanana.getValue() == problem.getAnswer())
 							{
 								happyMonkey();
