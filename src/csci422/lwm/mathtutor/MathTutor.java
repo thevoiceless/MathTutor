@@ -240,6 +240,7 @@ public class MathTutor extends Activity
 			monkey = BitmapFactory.decodeResource(getResources(), R.drawable.monkey_sad);
 			result = BitmapFactory.decodeResource(getResources(), R.drawable.ex);
 			selectedBanana.setVisible(false);
+			bananaSelected = false;
 			Handler handler = new Handler();
 			handler.postDelayed(new Runnable()
 			{
