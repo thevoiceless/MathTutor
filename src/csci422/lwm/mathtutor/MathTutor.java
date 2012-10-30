@@ -224,6 +224,7 @@ public class MathTutor extends Activity
 			monkey = BitmapFactory.decodeResource(getResources(), R.drawable.monkey_happy);
 			result = BitmapFactory.decodeResource(getResources(), R.drawable.check);
 			selectedBanana.setVisible(false);
+			bananaSelected = false;
 			Handler handler = new Handler();
 			handler.postDelayed(new Runnable()
 			{
