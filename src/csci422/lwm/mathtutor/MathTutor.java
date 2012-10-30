@@ -110,8 +110,8 @@ public class MathTutor extends Activity
 		private boolean bananaSelected, ignoreTouches;
 		private Banana selectedBanana;
 		private Bitmap monkey, tree, result;
-		private int canvasWidth, canvasHeight, monkeyX, monkeyY, origBananaX, origBananaY, resultX, resultY;
-		private Rect scaledTree;
+		private int canvasWidth, canvasHeight, monkeyX, monkeyY, origBananaX, origBananaY;
+		private Rect scaledTree, scaledResult;
 
 		public MathView(Context context)
 		{
@@ -129,6 +129,7 @@ public class MathTutor extends Activity
 			bananaSelected = false;
 			ignoreTouches = false;
 			scaledTree = new Rect();
+			scaledResult = new Rect();
 		}
 		
 		@Override
@@ -147,7 +148,7 @@ public class MathTutor extends Activity
 		
 			canvas.drawBitmap(tree, null, scaledTree, null);
 			canvas.drawBitmap(monkey, monkeyX, monkeyY, null);
-			canvas.drawBitmap(result, resultX, resultY, null);
+			canvas.drawBitmap(result, null, scaledResult, null);
 			canvas.drawText(problem.getQuestion(),
 					canvasWidth / 2, 
 					canvasHeight / 3, 
@@ -191,8 +192,10 @@ public class MathTutor extends Activity
 			canvasWidth = canvas.getWidth();
 			canvasHeight = canvas.getHeight();
 			
-			resultX = canvasWidth / 2;
-			resultY = canvasHeight / 2;
+			scaledResult.left = canvasWidth / 2;
+			scaledResult.top = canvasHeight / 2;
+			scaledResult.bottom = canvasHeight;
+			scaledResult.right = scaledResult.left + (scaledResult.bottom - scaledResult.top);
 			
 			scaledTree.left = scaledTree.top = 0;
 			scaledTree.right = canvasWidth / 2;
