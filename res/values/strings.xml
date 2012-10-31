@@ -1,9 +1,9 @@
 <resources>
 
-    <string name="app_name">Math Tutor</string>
+    <string name="app_name">Math Tutor (Riley)</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_math_tutor">Math Tutor</string>
+    <string name="title_activity_math_tutor">Math Tutor (Riley)</string>
     
     <string name="easy_label">Easy Difficulty</string>
     <string name="medium_label">Medium Difficulty</string>
