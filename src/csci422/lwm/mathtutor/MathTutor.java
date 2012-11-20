@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 public class MathTutor extends Activity
 {
@@ -25,8 +26,13 @@ public class MathTutor extends Activity
 	public static int NUM_BANANAS = 4;
 	private MathProblemGenerator problem;
 	private boolean firstRun;
+	private boolean isQuizComplete;
 	private MathView mv;
 	private Paint debugPaint;
+	private int numProblems;
+	private int numProblemsComplete;
+	private ProgressHelper helper = new ProgressHelper(this);
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -44,6 +50,8 @@ public class MathTutor extends Activity
 		
 		debugPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		debugPaint.setARGB(255, 10, 133, 255);
+	
+		numProblems = getIntent().getIntExtra(MainMenu.NUM_PROBLEMS, -1);
 	}
 	
 	@Override
@@ -107,7 +115,7 @@ public class MathTutor extends Activity
 		private Paint bananaTextPaint = new Paint();
 		int[] xcoords = {150, 400, 150, 400};
 		int[] ycoords = {100, 100, 300, 300};
-		private boolean bananaSelected, ignoreTouches;
+		private boolean bananaSelected, ignoreTouches, firstTry;
 		private Banana selectedBanana;
 		private Bitmap monkey, tree, result;
 		private int canvasWidth, canvasHeight, monkeyX, monkeyY, origBananaX, origBananaY;
@@ -128,6 +136,7 @@ public class MathTutor extends Activity
 			result = BitmapFactory.decodeResource(getResources(), R.drawable.placeholder);
 			bananaSelected = false;
 			ignoreTouches = false;
+			firstTry = true;
 			scaledTree = new Rect();
 			scaledResult = new Rect();
 		}
@@ -217,6 +226,7 @@ public class MathTutor extends Activity
 			for (int i = 0; i < NUM_BANANAS; i++) {
 				bananas[i].setValue(bananaAnswers.get(i));
 			}
+			firstTry = true;
 		}
 		
 		private void happyMonkey()
@@ -235,6 +245,9 @@ public class MathTutor extends Activity
 					firstRun = true;
 					ignoreTouches = false;
 					invalidate();
+					if (isQuizComplete) {
+						finish();
+					}
 				}
 			}, 1000);
 		}
@@ -296,10 +309,16 @@ public class MathTutor extends Activity
 							if(selectedBanana.getValue() == problem.getAnswer())
 							{
 								happyMonkey();
+								incrementCounterIfQuiz();
+								if (firstTry) {
+									helper.storeProblem(problem, true);
+								}
 							}
 							else
 							{
 								sadMonkey();
+								firstTry = false;
+								helper.storeProblem(problem, false);
 							}
 						}
 						else
@@ -315,12 +334,24 @@ public class MathTutor extends Activity
 			invalidate();
 			return true;
 		}
+	
+		private void incrementCounterIfQuiz() {
+			if (numProblems > 0) {
+				numProblemsComplete++;
+				Log.d(DEBUG_TAG, "numP:" + numProblems + " numPC:" + numProblemsComplete);
+				if (numProblemsComplete >= numProblems) {
+					Toast.makeText(this.getContext(), 
+							"Great Job!", 
+							Toast.LENGTH_LONG)
+						.show();
+					isQuizComplete = true;	
+				}
+			}
+		}
 	}
 	
 	private class Banana
 	{
-		private static final int ICON_WIDTH = 152;
-		private static final int ICON_HEIGHT = 195;
 		private static final int ICON_HALFWIDTH = 76;
 		private static final int ICON_HALFHEIGHT = 97;
 		private int value;

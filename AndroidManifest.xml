@@ -24,6 +24,14 @@
             android:name=".MathTutor"
             android:label="@string/title_activity_math_tutor"
             android:screenOrientation="landscape" />
+        <activity
+            android:name=".HowTo"
+            android:label="@string/title_activity_howto"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ProgressActivity"
+            android:label="@string/title_activity_progress" 
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>

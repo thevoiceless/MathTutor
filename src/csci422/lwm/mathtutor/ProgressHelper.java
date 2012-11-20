@@ -2,6 +2,7 @@ package csci422.lwm.mathtutor;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -36,6 +37,16 @@ public class ProgressHelper extends SQLiteOpenHelper {
 		cv.put("correct", correct);
 		
 		getWritableDatabase().insert("problems", "value1", cv);
+	}
+	
+	public int numberOfStoredProblems() {
+		Cursor c = getReadableDatabase().rawQuery("SELECT * FROM problems", null);
+		return c.getCount();
+	}
+	
+	public int numberOfCorrectProblems() {
+		Cursor c = getReadableDatabase().rawQuery("SELECT * FROM problems WHERE correct=1", null);
+		return c.getCount();
 	}
 
 }

@@ -1,16 +1,12 @@
 package csci422.lwm.mathtutor;
 
-import csci422.lwm.mathtutor.NumQuestionsDialogFragment.QuestionsDialogListener;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+import csci422.lwm.mathtutor.NumQuestionsDialogFragment.QuestionsDialogListener;
 
 public class MainMenu extends FragmentActivity implements QuestionsDialogListener
 {
@@ -42,10 +38,23 @@ public class MainMenu extends FragmentActivity implements QuestionsDialogListene
 	}
 
 	@Override
-	public void onDialogPositiveClick(int position)
+	public void onDialogPositiveClick(int quizLength)
 	{
-		Toast.makeText(this, "Selected " + position, Toast.LENGTH_LONG).show();
+		Toast.makeText(this, "Selected " + quizLength, Toast.LENGTH_LONG).show();
 		Intent i = new Intent(this, MathTutor.class);
+		i.putExtra(NUM_PROBLEMS, quizLength);		
 		startActivity(i);
 	}
+	
+	public void showHowto(View v)
+	{
+		Intent i = new Intent(this, HowTo.class);
+		startActivity(i);
+	}
+	
+	public void showProgress(View v) {
+		Intent i = new Intent(this, ProgressActivity.class);
+		startActivity(i);
+	}
+	
 }

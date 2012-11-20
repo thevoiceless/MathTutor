@@ -16,4 +16,18 @@
         android:text="@string/button_start_quiz"
         android:onClick="selectQuizLength" />
     
+    <Button
+        android:id="@+id/button_howto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_howto"
+		android:onClick="showHowto" />
+
+	<Button 
+        android:id="@+id/button_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_show_progress"
+        android:onClick="showProgress" />
+    
 </LinearLayout>
