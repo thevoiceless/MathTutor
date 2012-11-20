@@ -48,4 +48,10 @@ public class MainMenu extends FragmentActivity implements QuestionsDialogListene
 		Intent i = new Intent(this, MathTutor.class);
 		startActivity(i);
 	}
+	
+	public void showHowto(View v)
+	{
+		Intent i = new Intent(this, HowTo.class);
+		startActivity(i);
+	}
 }

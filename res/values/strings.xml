@@ -14,6 +14,10 @@
     <string name="dialog_quiz_start">Start</string>
     <string name="dialog_quiz_cancel">Cancel</string>
     <string name="quiz_length">quiz length</string>
+    <string name="button_howto">Instructions</string>
+    
+    <!-- How To -->
+    <string name="title_activity_howto">Instructions</string>
     
     <!-- Difficulty menu -->
     <string name="easy_label">Easy Difficulty</string>
