@@ -1,6 +1,12 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
-    android:id="@+id/howToLayout"
-    android:layout_width="fill_parent" 
-    android:layout_height="fill_parent">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:id="@+id/howTo_scrollView"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
     
-</LinearLayout>
+    <ImageView
+        android:id="@+id/howTo_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/howto" />
+    
+</ScrollView>
