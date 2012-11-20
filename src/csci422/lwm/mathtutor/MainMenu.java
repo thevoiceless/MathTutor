@@ -56,5 +56,5 @@ public class MainMenu extends FragmentActivity implements QuestionsDialogListene
 		Intent i = new Intent(this, ProgressActivity.class);
 		startActivity(i);
 	}
-	
+
 }

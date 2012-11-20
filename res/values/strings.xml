@@ -19,7 +19,7 @@
 
     <!-- How To -->
     <string name="title_activity_howto">Instructions</string>
-
+    
     <!-- Difficulty menu -->
     <string name="easy_label">Easy Difficulty</string>
     <string name="medium_label">Medium Difficulty</string>
