@@ -13,6 +13,7 @@
         android:id="@+id/button_quiz"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_start_quiz" />
+        android:text="@string/button_start_quiz"
+        android:onClick="selectQuizLength" />
     
 </LinearLayout>

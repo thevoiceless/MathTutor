@@ -10,6 +10,10 @@
     <!-- Main menu -->
     <string name="button_start_endless">Endless Mode</string>
     <string name="button_start_quiz">Quiz Mode</string>
+    <string name="dialog_quiz_number_of_probs">How many problems?</string>
+    <string name="dialog_quiz_start">Start</string>
+    <string name="dialog_quiz_cancel">Cancel</string>
+    <string name="quiz_length">quiz length</string>
     
     <!-- Difficulty menu -->
     <string name="easy_label">Easy Difficulty</string>
