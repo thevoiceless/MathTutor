@@ -8,7 +8,8 @@
     <string name="title_activity_math_tutor">Math Tutor</string>
     
     <!-- Main menu -->
-    <string name="button_start">Start</string>
+    <string name="button_start_endless">Endless Mode</string>
+    <string name="button_start_quiz">Quiz Mode</string>
     
     <!-- Difficulty menu -->
     <string name="easy_label">Easy Difficulty</string>

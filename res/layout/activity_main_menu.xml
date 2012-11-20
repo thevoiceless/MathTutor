@@ -1,13 +1,18 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/menuLayout"
+<LinearLayout android:id="@+id/menuLayout"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent" android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android">
     
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/button_endless"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_start"
-        android:onClick="startGame" />
+        android:text="@string/button_start_endless"
+        android:onClick="startEndless" />
+    
+    <Button 
+        android:id="@+id/button_quiz"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_start_quiz" />
     
 </LinearLayout>

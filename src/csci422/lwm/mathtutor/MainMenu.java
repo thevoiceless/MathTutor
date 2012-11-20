@@ -14,7 +14,7 @@ public class MainMenu extends Activity
 		setContentView(R.layout.activity_main_menu);
 	}
 	
-	public void startGame(View v)
+	public void startEndless(View v)
 	{
 		Intent i = new Intent(this, MathTutor.class);
 		startActivity(i);
