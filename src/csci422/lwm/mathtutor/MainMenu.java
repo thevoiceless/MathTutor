@@ -16,7 +16,7 @@ public class MainMenu extends FragmentActivity implements QuestionsDialogListene
 {
 	public static String NUM_PROBLEMS = "csci422.lwm.mathtutor.NUM_PROBLEMS";
 	private static final String MAIN_MENU_SOUND = "jungle.mp3";
-	private MediaPlayer player;
+	private MediaPlayer player = new MediaPlayer();
 	private AssetFileDescriptor soundFile;
 	
 	@Override
@@ -24,20 +24,35 @@ public class MainMenu extends FragmentActivity implements QuestionsDialogListene
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_menu);
+		// Prepare the sound file
+		prepareSound();
 	}
 	
 	@Override
 	public void onPause()
 	{
-		player.release();
+		// Pause and return to the beginning of the sound file
+		player.pause();
+		player.seekTo(0);
 		super.onPause();
 	}
 	
 	@Override
 	public void onResume()
 	{
-		playSound();
+		// Start playing sound if not already
+		if (!player.isPlaying())
+		{
+			player.start();
+		}
 		super.onResume();
+	}
+	
+	@Override
+	public void onDestroy()
+	{
+		player.release();
+		super.onDestroy();
 	}
 	
 	public void startEndless(View v)
@@ -78,14 +93,16 @@ public class MainMenu extends FragmentActivity implements QuestionsDialogListene
 		startActivity(i);
 	}
 	
-	private void playSound()
+	private void prepareSound()
 	{
 		try
 		{
-			player = new MediaPlayer();
+			// Get file descriptor of sound file from assets
 			soundFile = getAssets().openFd(MAIN_MENU_SOUND);
+			// Set data source and stream type
 			player.setDataSource(soundFile.getFileDescriptor(), soundFile.getStartOffset(), soundFile.getLength());
 			player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+			// Prepare
 			player.setOnPreparedListener(this);
 			player.prepareAsync();
 		}
@@ -98,7 +115,7 @@ public class MainMenu extends FragmentActivity implements QuestionsDialogListene
 	@Override
 	public void onPrepared(MediaPlayer mp)
 	{
-		Log.v("test", "sound");
+		// Start playing immediately once prepared
 		player.start();
 	}
 
