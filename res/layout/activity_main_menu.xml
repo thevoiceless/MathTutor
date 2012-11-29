@@ -7,9 +7,9 @@
     <Button
         android:id="@+id/button_endless"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/button_start_endless"
-        android:onClick="startEndless" />
+        android:layout_height="wrap_content" 
+        android:onClick="startEndless" 
+        android:text="@string/button_start_endless" />
     
     <Button 
         android:id="@+id/button_quiz"
