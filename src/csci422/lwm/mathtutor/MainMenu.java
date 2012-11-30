@@ -1,13 +1,17 @@
 package csci422.lwm.mathtutor;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import csci422.lwm.mathtutor.NumQuestionsDialogFragment.QuestionsDialogListener;
@@ -16,14 +20,18 @@ public class MainMenu extends FragmentActivity implements QuestionsDialogListene
 {
 	public static String NUM_PROBLEMS = "csci422.lwm.mathtutor.NUM_PROBLEMS";
 	private static final String MAIN_MENU_SOUND = "jungle.mp3";
-	private MediaPlayer player = new MediaPlayer();
 	private AssetFileDescriptor soundFile;
+	private SharedPreferences prefs;
+	private MediaPlayer player = new MediaPlayer();
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_menu);
+		
+		setDataMembers();
+		
 		// Prepare the sound file
 		prepareSound();
 	}
@@ -41,7 +49,7 @@ public class MainMenu extends FragmentActivity implements QuestionsDialogListene
 	public void onResume()
 	{
 		// Start playing sound if not already
-		if (!player.isPlaying())
+		if (!player.isPlaying() && prefs.getBoolean(getString(R.string.key_use_sound), false))
 		{
 			player.start();
 		}
@@ -53,6 +61,29 @@ public class MainMenu extends FragmentActivity implements QuestionsDialogListene
 	{
 		player.release();
 		super.onDestroy();
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		getMenuInflater().inflate(R.menu.main_menu, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		if (item.getItemId() == R.id.menu_prefs)
+		{
+			startActivity(new Intent(this, EditPreferences.class));
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	private void setDataMembers()
+	{
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 	}
 	
 	public void startEndless(View v)
@@ -104,7 +135,10 @@ public class MainMenu extends FragmentActivity implements QuestionsDialogListene
 			player.setAudioStreamType(AudioManager.STREAM_MUSIC);
 			// Prepare
 			player.setOnPreparedListener(this);
-			player.prepareAsync();
+			if (prefs.getBoolean(getString(R.string.key_use_sound), false))
+			{
+				player.prepareAsync();
+			}
 		}
 		catch (Exception e)
 		{

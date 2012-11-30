@@ -21,9 +21,9 @@ import android.widget.Toast;
 
 public class MathTutor extends Activity
 {
-	public static String DEBUG_TAG = "mathtutorTest";
+	public static final String DEBUG_TAG = "mathtutor_test";
 	
-	public static int NUM_BANANAS = 4;
+	public static int NUM_ANSWERS = 4;
 	private MathProblemGenerator problem;
 	private boolean firstRun;
 	private boolean isQuizComplete;
@@ -110,7 +110,7 @@ public class MathTutor extends Activity
 
 	private class MathView extends View
 	{
-		private Banana[] bananas = new Banana[NUM_BANANAS];
+		private Banana[] bananas = new Banana[NUM_ANSWERS];
 		private Paint problemTextPaint = new Paint();
 		private Paint bananaTextPaint = new Paint();
 		int[] xcoords = {150, 400, 150, 400};
@@ -163,7 +163,7 @@ public class MathTutor extends Activity
 					canvasHeight / 3, 
 					problemTextPaint);	
 			
-			for (int i = 0; i < NUM_BANANAS; i++)
+			for (int i = 0; i < NUM_ANSWERS; i++)
 			{
 				if (bananas[i].visible)
 				{
@@ -213,7 +213,7 @@ public class MathTutor extends Activity
 			animalX = canvasWidth - animal.getWidth();
 			animalY = canvasHeight - animal.getHeight();
 
-			for (int i = 0; i < NUM_BANANAS; i++)
+			for (int i = 0; i < NUM_ANSWERS; i++)
 			{
 				bananas[i] = new Banana(xcoords[i], ycoords[i]);
 			}		
@@ -223,7 +223,7 @@ public class MathTutor extends Activity
 		{
 			problem.generateProblem();
 			ArrayList<Integer> bananaAnswers = problem.getAnswerChoices();
-			for (int i = 0; i < NUM_BANANAS; i++) {
+			for (int i = 0; i < NUM_ANSWERS; i++) {
 				bananas[i].setValue(bananaAnswers.get(i));
 			}
 			firstTry = true;
@@ -281,7 +281,7 @@ public class MathTutor extends Activity
 			{
 				case MotionEvent.ACTION_DOWN:
 					//Log.v("test", "(" + e.getX() + "," + e.getY() + ")");
-					for (int i = 0; i < NUM_BANANAS; i++)
+					for (int i = 0; i < NUM_ANSWERS; i++)
 					{
 						if (bananas[i].visible && bananas[i].bounds.contains((int) e.getX(), (int) e.getY()))
 						{

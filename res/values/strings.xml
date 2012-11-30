@@ -25,5 +25,10 @@
     <string name="medium_label">Medium Difficulty</string>
     <string name="hard_label">Hard Difficulty</string>
     <string name="title_activity_progress">Progress Activity</string>
+    
+    <!-- Preferences -->
+    <string name="key_use_sound">use_sound</string>
+    <string name="pref_use_sound_title">Enable sound</string>
+    <string name="pref_use_sound_summary">Play sounds in the main menu and during the game</string>
 
 </resources>
