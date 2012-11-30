@@ -2,6 +2,7 @@ package csci422.lwm.mathtutor;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -39,6 +40,7 @@ public class MainMenu extends FragmentActivity implements QuestionsDialogListene
 	@Override
 	public void onPause()
 	{
+		prefs.unregisterOnSharedPreferenceChangeListener(onPreferenceChange);
 		// Pause and return to the beginning of the sound file
 		player.pause();
 		player.seekTo(0);
@@ -71,9 +73,35 @@ public class MainMenu extends FragmentActivity implements QuestionsDialogListene
 	}
 	
 	@Override
+	public boolean onPrepareOptionsMenu(Menu menu)
+	{
+		// If sound is enabled, set menu entry to turn it off
+		if (prefs.getBoolean(getString(R.string.key_use_sound), false))
+		{
+			menu.findItem(R.id.menu_toggle_sound).setIcon(R.drawable.ic_audio_vol_mute);
+			menu.findItem(R.id.menu_toggle_sound).setTitle(R.string.toggle_sound_off);
+		}
+		// Otherwise, set menu entry to enable it
+		else
+		{
+			menu.findItem(R.id.menu_toggle_sound).setIcon(R.drawable.ic_audio_vol);
+			menu.findItem(R.id.menu_toggle_sound).setTitle(R.string.toggle_sound_on);
+		}
+		return super.onPrepareOptionsMenu(menu);
+	}
+	
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
-		if (item.getItemId() == R.id.menu_prefs)
+		if (item.getItemId() == R.id.menu_toggle_sound)
+		{
+			boolean useSound = prefs.getBoolean(getString(R.string.key_use_sound), false);
+			Editor editor = prefs.edit();
+			editor.putBoolean(getString(R.string.key_use_sound), !useSound);
+			editor.commit();
+			invalidateOptionsMenu();
+		}
+		if (item.getItemId() == R.id.menu_settings)
 		{
 			startActivity(new Intent(this, EditPreferences.class));
 			return true;
@@ -84,6 +112,7 @@ public class MainMenu extends FragmentActivity implements QuestionsDialogListene
 	private void setDataMembers()
 	{
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		prefs.registerOnSharedPreferenceChangeListener(onPreferenceChange);
 	}
 	
 	public void startEndless(View v)
@@ -152,5 +181,27 @@ public class MainMenu extends FragmentActivity implements QuestionsDialogListene
 		// Start playing immediately once prepared
 		player.start();
 	}
+	
+	SharedPreferences.OnSharedPreferenceChangeListener onPreferenceChange = new SharedPreferences.OnSharedPreferenceChangeListener()
+	{
+		public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
+		{
+			if (getString(R.string.key_use_sound).equals(key))
+			{
+				if (prefs.getBoolean(key, false))
+				{
+					player.release();
+					player = new MediaPlayer();
+					prepareSound();
+				}
+				else
+				{
+					player.pause();
+					player.seekTo(0);
+				}
+				
+			}
+		}
+	};
 
 }

@@ -1,8 +1,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     
     <item
-        android:id="@+id/menu_prefs"
-        android:title="@string/menu_settings"
+        android:id="@+id/menu_toggle_sound"
+        android:title="@string/menu_toggle_sound_title"
+        android:icon="@drawable/ic_audio_vol"
+        android:showAsAction="ifRoom|withText" />
+    
+    <item
+        android:id="@+id/menu_settings"
+        android:title="@string/menu_settings_title"
         android:icon="@drawable/ic_menu_preferences" />
     
 </menu>
