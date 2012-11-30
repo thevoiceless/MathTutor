@@ -5,4 +5,12 @@
         android:title="@string/pref_use_sound_title"
         android:summary="@string/pref_use_sound_summary" />
     
+    <ListPreference 
+        android:entries="@array/pref_animal_entries"
+        android:entryValues="@array/pref_animal_values"
+        android:defaultValue="monkey"
+        android:key="@string/key_which_animal"
+        android:title="@string/pref_which_animal_title"
+        android:summary="@string/pref_which_animal_summary" />
+    
 </PreferenceScreen>
