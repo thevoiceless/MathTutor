@@ -11,6 +11,7 @@
         android:defaultValue="monkey"
         android:key="@string/key_which_animal"
         android:title="@string/pref_which_animal_title"
-        android:summary="@string/pref_which_animal_summary" />
+        android:summary="@string/pref_which_animal_summary"
+        android:dialogTitle="@string/pref_which_animal_dialog" />
     
 </PreferenceScreen>
