@@ -115,8 +115,9 @@ public class MathTutor extends Activity
 		private Paint bananaTextPaint = new Paint();
 		int[] xcoords = {150, 400, 150, 400};
 		int[] ycoords = {100, 100, 300, 300};
-		private boolean bananaSelected, ignoreTouches, firstTry;
+		private boolean bananaSelected, ignoreTouches;
 		private Banana selectedBanana;
+		private int numTries;
 		private Bitmap animal, tree, result;
 		private int canvasWidth, canvasHeight, animalX, animalY, origBananaX, origBananaY;
 		private Rect scaledTree, scaledResult;
@@ -136,7 +137,6 @@ public class MathTutor extends Activity
 			result = BitmapFactory.decodeResource(getResources(), R.drawable.placeholder);
 			bananaSelected = false;
 			ignoreTouches = false;
-			firstTry = true;
 			scaledTree = new Rect();
 			scaledResult = new Rect();
 		}
@@ -226,7 +226,7 @@ public class MathTutor extends Activity
 			for (int i = 0; i < NUM_ANSWERS; i++) {
 				bananas[i].setValue(bananaAnswers.get(i));
 			}
-			firstTry = true;
+			numTries = 1;
 		}
 		
 		private void correctAnswer()
@@ -310,16 +310,21 @@ public class MathTutor extends Activity
 							{
 								correctAnswer();
 								incrementCounterIfQuiz();
-								if (firstTry && numProblems > 0) {
-									helper.storeProblem(problem, true);
+								if (numProblems > 0) {
+									helper.storeProblem(problem, numTries);
+									Toast.makeText(getApplicationContext(),
+											"Stored, numTries="+numTries,
+											Toast.LENGTH_LONG).show();
 								}
 							}
 							else
 							{
 								wrongAnswer();
-								firstTry = false;
 								if (numProblems > 0) {
-									helper.storeProblem(problem, false);
+									numTries++;
+									Toast.makeText(getApplicationContext(),
+											"Wrong, numTries="+numTries,
+											Toast.LENGTH_LONG).show();
 								}
 							}
 						}
