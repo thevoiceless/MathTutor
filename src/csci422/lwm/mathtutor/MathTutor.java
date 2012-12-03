@@ -310,7 +310,7 @@ public class MathTutor extends Activity
 							{
 								happyMonkey();
 								incrementCounterIfQuiz();
-								if (firstTry) {
+								if (firstTry && numProblems > 0) {
 									helper.storeProblem(problem, true);
 								}
 							}
@@ -318,7 +318,9 @@ public class MathTutor extends Activity
 							{
 								sadMonkey();
 								firstTry = false;
-								helper.storeProblem(problem, false);
+								if (numProblems > 0) {
+									helper.storeProblem(problem, false);
+								}
 							}
 						}
 						else
