@@ -24,12 +24,11 @@ public class ProgressActivity extends Activity {
         c.moveToFirst();
         
         CategorySeries data = new CategorySeries("Data");
-        data.add("Correct", c.getInt(1));
-        data.add("Two Guesses", c.getInt(2));
-        data.add("Three Guesses", c.getInt(3));
-        data.add("Four Guesses", c.getInt(4));
-        //data.add("Total", c.getInt(0));
-        
+        data.add("Correct (" + c.getInt(1) + ")", c.getInt(1));
+        data.add("Two Guesses (" + c.getInt(2) + ")", c.getInt(2));
+        data.add("Three Guesses (" + c.getInt(3) + ")", c.getInt(3));
+        data.add("Four Guesses (" + c.getInt(4) + ")", c.getInt(4));
+                
         int[] colors = new int[] { Color.BLUE, Color.GREEN, Color.MAGENTA, Color.RED };
         DefaultRenderer renderer = buildCategoryRenderer(colors);
         renderer.setZoomButtonsVisible(false);
@@ -38,8 +37,7 @@ public class ProgressActivity extends Activity {
         renderer.setInScroll(false);
         renderer.setChartTitleTextSize(20);
         
-        startActivity(ChartFactory.getPieChartIntent(this, data, renderer, "Progress"));
-        
+        startActivity(ChartFactory.getPieChartIntent(this, data, renderer, "Progress (Total: " + c.getInt(0) + ")")); 
     }
 
     @Override
