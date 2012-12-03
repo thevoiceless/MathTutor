@@ -21,9 +21,9 @@ import android.widget.Toast;
 
 public class MathTutor extends Activity
 {
-	public static String DEBUG_TAG = "mathtutorTest";
+	public static final String DEBUG_TAG = "mathtutor_test";
 	
-	public static int NUM_BANANAS = 4;
+	public static int NUM_ANSWERS = 4;
 	private MathProblemGenerator problem;
 	private boolean firstRun;
 	private boolean isQuizComplete;
@@ -110,15 +110,15 @@ public class MathTutor extends Activity
 
 	private class MathView extends View
 	{
-		private Banana[] bananas = new Banana[NUM_BANANAS];
+		private Banana[] bananas = new Banana[NUM_ANSWERS];
 		private Paint problemTextPaint = new Paint();
 		private Paint bananaTextPaint = new Paint();
 		int[] xcoords = {150, 400, 150, 400};
 		int[] ycoords = {100, 100, 300, 300};
 		private boolean bananaSelected, ignoreTouches, firstTry;
 		private Banana selectedBanana;
-		private Bitmap monkey, tree, result;
-		private int canvasWidth, canvasHeight, monkeyX, monkeyY, origBananaX, origBananaY;
+		private Bitmap animal, tree, result;
+		private int canvasWidth, canvasHeight, animalX, animalY, origBananaX, origBananaY;
 		private Rect scaledTree, scaledResult;
 
 		public MathView(Context context)
@@ -131,7 +131,7 @@ public class MathTutor extends Activity
 		
 		private void setDataMembers()
 		{
-			monkey = BitmapFactory.decodeResource(getResources(), R.drawable.monkey_question);
+			animal = BitmapFactory.decodeResource(getResources(), R.drawable.monkey_question);
 			tree = BitmapFactory.decodeResource(getResources(), R.drawable.tree);
 			result = BitmapFactory.decodeResource(getResources(), R.drawable.placeholder);
 			bananaSelected = false;
@@ -156,14 +156,14 @@ public class MathTutor extends Activity
 			}
 		
 			canvas.drawBitmap(tree, null, scaledTree, null);
-			canvas.drawBitmap(monkey, monkeyX, monkeyY, null);
+			canvas.drawBitmap(animal, animalX, animalY, null);
 			canvas.drawBitmap(result, null, scaledResult, null);
 			canvas.drawText(problem.getQuestion(),
 					canvasWidth / 2, 
 					canvasHeight / 3, 
 					problemTextPaint);	
 			
-			for (int i = 0; i < NUM_BANANAS; i++)
+			for (int i = 0; i < NUM_ANSWERS; i++)
 			{
 				if (bananas[i].visible)
 				{
@@ -210,10 +210,10 @@ public class MathTutor extends Activity
 			scaledTree.right = canvasWidth / 2;
 			scaledTree.bottom = canvasHeight;
 			
-			monkeyX = canvasWidth - monkey.getWidth();
-			monkeyY = canvasHeight - monkey.getHeight();
+			animalX = canvasWidth - animal.getWidth();
+			animalY = canvasHeight - animal.getHeight();
 
-			for (int i = 0; i < NUM_BANANAS; i++)
+			for (int i = 0; i < NUM_ANSWERS; i++)
 			{
 				bananas[i] = new Banana(xcoords[i], ycoords[i]);
 			}		
@@ -223,15 +223,15 @@ public class MathTutor extends Activity
 		{
 			problem.generateProblem();
 			ArrayList<Integer> bananaAnswers = problem.getAnswerChoices();
-			for (int i = 0; i < NUM_BANANAS; i++) {
+			for (int i = 0; i < NUM_ANSWERS; i++) {
 				bananas[i].setValue(bananaAnswers.get(i));
 			}
 			firstTry = true;
 		}
 		
-		private void happyMonkey()
+		private void correctAnswer()
 		{
-			monkey = BitmapFactory.decodeResource(getResources(), R.drawable.monkey_happy);
+			animal = BitmapFactory.decodeResource(getResources(), R.drawable.monkey_happy);
 			result = BitmapFactory.decodeResource(getResources(), R.drawable.check);
 			selectedBanana.setVisible(false);
 			bananaSelected = false;
@@ -240,7 +240,7 @@ public class MathTutor extends Activity
 			{
 				public void run()
 				{
-					monkey = BitmapFactory.decodeResource(getResources(), R.drawable.monkey_question);
+					animal = BitmapFactory.decodeResource(getResources(), R.drawable.monkey_question);
 					result = BitmapFactory.decodeResource(getResources(), R.drawable.placeholder);
 					firstRun = true;
 					ignoreTouches = false;
@@ -252,9 +252,9 @@ public class MathTutor extends Activity
 			}, 1000);
 		}
 		
-		private void sadMonkey()
+		private void wrongAnswer()
 		{
-			monkey = BitmapFactory.decodeResource(getResources(), R.drawable.monkey_sad);
+			animal = BitmapFactory.decodeResource(getResources(), R.drawable.monkey_sad);
 			result = BitmapFactory.decodeResource(getResources(), R.drawable.ex);
 			selectedBanana.setVisible(false);
 			bananaSelected = false;
@@ -263,7 +263,7 @@ public class MathTutor extends Activity
 			{
 				public void run()
 				{
-					monkey = BitmapFactory.decodeResource(getResources(), R.drawable.monkey_question);
+					animal = BitmapFactory.decodeResource(getResources(), R.drawable.monkey_question);
 					result = BitmapFactory.decodeResource(getResources(), R.drawable.placeholder);
 					ignoreTouches = false;
 					invalidate();
@@ -280,8 +280,8 @@ public class MathTutor extends Activity
 			switch (e.getAction())
 			{
 				case MotionEvent.ACTION_DOWN:
-					Log.v("test", "(" + e.getX() + "," + e.getY() + ")");
-					for (int i = 0; i < NUM_BANANAS; i++)
+					//Log.v("test", "(" + e.getX() + "," + e.getY() + ")");
+					for (int i = 0; i < NUM_ANSWERS; i++)
 					{
 						if (bananas[i].visible && bananas[i].bounds.contains((int) e.getX(), (int) e.getY()))
 						{
@@ -303,12 +303,12 @@ public class MathTutor extends Activity
 					if (bananaSelected)
 					{
 						Log.v("test", "(" + e.getX() + "," + e.getY() + ")");
-						if (e.getX() >= monkeyX && e.getY() >= monkeyY)
+						if (e.getX() >= animalX && e.getY() >= animalY)
 						{
 							ignoreTouches = true;
 							if(selectedBanana.getValue() == problem.getAnswer())
 							{
-								happyMonkey();
+								correctAnswer();
 								incrementCounterIfQuiz();
 								if (firstTry && numProblems > 0) {
 									helper.storeProblem(problem, true);
@@ -316,7 +316,7 @@ public class MathTutor extends Activity
 							}
 							else
 							{
-								sadMonkey();
+								wrongAnswer();
 								firstTry = false;
 								if (numProblems > 0) {
 									helper.storeProblem(problem, false);

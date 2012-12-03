@@ -1,4 +1,3 @@
-
     <resources>
         <array name="numberOfQuizProblems">
             <item >"5"</item>
@@ -9,4 +8,14 @@
             <item >"50</item>
             <item >"100"</item>
         </array>
+        <string-array name="pref_animal_entries">
+            <item >Monkey</item>
+            <item >Animal 2</item>
+            <item >Animal 3</item>
+        </string-array>
+        <string-array name="pref_animal_values">
+            <item >monkey</item>
+            <item >animal2</item>
+            <item >animal3</item>
+        </string-array>
     </resources>

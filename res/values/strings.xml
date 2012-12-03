@@ -3,7 +3,7 @@
     <!-- Application -->
     <string name="app_name">Math Tutor</string>
     <string name="hello_world">Hello world!</string>
-    <string name="menu_settings">Settings</string>
+    <string name="menu_settings_title">Settings</string>
     <string name="title_activity_main_menu">Main Menu</string>
     <string name="title_activity_math_tutor">Math Tutor</string>
 
@@ -25,5 +25,17 @@
     <string name="medium_label">Medium Difficulty</string>
     <string name="hard_label">Hard Difficulty</string>
     <string name="title_activity_progress">Progress Activity</string>
+    
+    <!-- Preferences -->
+    <string name="menu_toggle_sound_title">Toggle Sound</string>
+    <string name="toggle_sound_off">Mute Sounds</string>
+    <string name="toggle_sound_on">Play Sounds</string>
+    <string name="key_use_sound">use_sound</string>
+    <string name="pref_use_sound_title">Enable sounds</string>
+    <string name="pref_use_sound_summary">Play sounds in the main menu and during the game</string>
+    <string name="key_which_animal">which_animal</string>
+    <string name="pref_which_animal_title">Select animal to feed</string>
+    <string name="pref_which_animal_summary">This is the animal you feed answers to</string>
+    <string name="pref_which_animal_dialog">Which animal?</string>
 
 </resources>

@@ -1,0 +1,17 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <CheckBoxPreference
+        android:key="@string/key_use_sound"
+        android:title="@string/pref_use_sound_title"
+        android:summary="@string/pref_use_sound_summary" />
+    
+    <ListPreference 
+        android:entries="@array/pref_animal_entries"
+        android:entryValues="@array/pref_animal_values"
+        android:defaultValue="monkey"
+        android:key="@string/key_which_animal"
+        android:title="@string/pref_which_animal_title"
+        android:summary="@string/pref_which_animal_summary"
+        android:dialogTitle="@string/pref_which_animal_dialog" />
+    
+</PreferenceScreen>
