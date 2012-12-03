@@ -303,7 +303,7 @@ public class MathTutor extends Activity
 					if (bananaSelected)
 					{
 						Log.v("test", "(" + e.getX() + "," + e.getY() + ")");
-						if (e.getX() >= animalX && e.getY() >= animalY)
+						if ((e.getX() >= animalX && e.getY() >= animalY)||(e.getX()>=animalX))
 						{
 							ignoreTouches = true;
 							if(selectedBanana.getValue() == problem.getAnswer())
