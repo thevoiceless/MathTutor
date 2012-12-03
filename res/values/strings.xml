@@ -37,5 +37,17 @@
     <string name="pref_which_animal_title">Select animal to feed</string>
     <string name="pref_which_animal_summary">This is the animal you feed answers to</string>
     <string name="pref_which_animal_dialog">Which animal?</string>
+    
+    <!-- Progress -->
+    <string name="diff_label">Problem Difficulty</string>
+    <string name="diff_any">Any</string>
+    <string name="diff_easy">Easy (Numbers 10 or less)</string>
+    <string name="diff_medium">Medium (Numbers 20 or less)</string>
+    <string name="diff_hard">Hard (Numbers 100 or less)</string>
+    <string name="type_label">Problem Type</string>
+    <string name="type_any">Any</string>
+    <string name="type_add">Addition</string>
+    <string name="type_sub">Subtraction</string>
+    <string name="pref_submit">Generate Statistics</string>
 
 </resources>

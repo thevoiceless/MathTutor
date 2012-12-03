@@ -30,8 +30,7 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".ProgressActivity"
-            android:label="@string/title_activity_progress" 
-            android:screenOrientation="landscape" />
+            android:label="@string/title_activity_progress" />
         <activity android:name=".EditPreferences" />
         <activity android:name="org.achartengine.GraphicalActivity" />
         

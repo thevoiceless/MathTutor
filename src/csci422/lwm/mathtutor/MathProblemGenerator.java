@@ -13,8 +13,8 @@ public class MathProblemGenerator {
 	public static final int MEDIUM = 1;
 	public static final int HARD = 2;
 	
-	private static final int ADDITION = 0;
-	private static final int SUBTRACTION = 1;
+	public static final int ADDITION = 0;
+	public static final int SUBTRACTION = 1;
 	
 	private Integer value1;
 	private Integer value2;

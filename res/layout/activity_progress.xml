@@ -1,6 +1,75 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/progress"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-</FrameLayout>
+    <TextView 
+        android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:text="@string/diff_label" 
+	    android:textSize="16dip"
+	    android:textStyle="bold"
+	    android:layout_marginTop="10dip" />
+    <RadioGroup 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical" >
+	    <RadioButton android:id="@+id/diff_any"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/diff_any"
+	        android:onClick="onChangeDiff"/>
+	    <RadioButton android:id="@+id/diff_easy"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/diff_easy"
+	        android:onClick="onChangeDiff"/>
+	    <RadioButton android:id="@+id/diff_medium"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/diff_medium"
+	        android:onClick="onChangeDiff"/>
+	    <RadioButton android:id="@+id/diff_hard"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/diff_hard"
+	        android:onClick="onChangeDiff"/>
+    </RadioGroup>
+    <TextView 
+        android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:text="@string/diff_label" 
+	    android:textSize="16dip"
+	    android:textStyle="bold"
+	    android:layout_marginTop="10dip"/>
+	<RadioGroup 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical">
+	    <RadioButton 
+	        android:id="@+id/type_any"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/type_any"
+	        android:onClick="onChangeType" />
+	    <RadioButton 
+	        android:id="@+id/type_add"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/type_add"
+	        android:onClick="onChangeType" />
+	    <RadioButton 
+	        android:id="@+id/type_sub"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/type_sub"
+	        android:onClick="onChangeType" />
+	</RadioGroup>
+	<Button
+	    android:id="@+id/generate_stats"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:text="@string/pref_submit" 
+	    android:onClick="generateStats"/>
+</LinearLayout>
